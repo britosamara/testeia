@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site de Vídeos</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,14 +38,35 @@
             border-radius: 20px;
             cursor: pointer;
         }
+        .profile-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <div id="desktop-1" class="container">
+    <div id="login-container" class="container">
+        <h1>Faça login para continuar</h1>
+        <div id="g_id_onload"
+             data-client_id="SEU_CLIENT_ID"
+             data-context="signin"
+             data-ux_mode="popup"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin" data-type="standard"></div>
+    </div>
+
+    <div id="desktop-1" class="container" style="display: none;">
+        <img src="profile.png" alt="Perfil" class="profile-icon">
         <a class="link" onclick="goToVideos()">Vídeos</a>
     </div>
 
     <div id="desktop-2" class="container" style="display: none;">
+        <img src="profile.png" alt="Perfil" class="profile-icon">
         <h1>Vídeos</h1>
         <div class="image-container">
             <img src="image.png" alt="Vídeo" onclick="redirectToYouTube()">
@@ -53,6 +75,12 @@
     </div>
 
     <script>
+        function handleCredentialResponse(response) {
+            console.log("ID Token: " + response.credential);
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('desktop-1').style.display = 'flex';
+        }
+
         function goToVideos() {
             document.getElementById('desktop-1').style.display = 'none';
             document.getElementById('desktop-2').style.display = 'flex';
