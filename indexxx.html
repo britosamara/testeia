@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site de Vídeos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .link {
+            font-size: 24px;
+            text-decoration: none;
+            color: black;
+            border: 2px solid black;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 10px;
+        }
+        .link:hover {
+            background-color: red;
+            color: white;
+        }
+        .image-container img {
+            width: 300px;
+            height: auto;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="desktop-1" class="container">
+        <a class="link" onclick="goToVideos()">Vídeos</a>
+    </div>
+
+    <div id="desktop-2" class="container" style="display: none;">
+        <h1>Vídeos</h1>
+        <div class="image-container">
+            <img src="image.png" alt="Vídeo" onclick="redirectToYouTube()">
+        </div>
+        <a class="link" onclick="goToHome()">Voltar</a>
+    </div>
+
+    <script>
+        function goToVideos() {
+            document.getElementById('desktop-1').style.display = 'none';
+            document.getElementById('desktop-2').style.display = 'flex';
+        }
+
+        function goToHome() {
+            document.getElementById('desktop-2').style.display = 'none';
+            document.getElementById('desktop-1').style.display = 'flex';
+        }
+
+        function redirectToYouTube() {
+            window.location.href = "https://www.youtube.com/watch?v=kFTS9B1Kx14";
+        }
+    </script>
+</body>
+</html>
