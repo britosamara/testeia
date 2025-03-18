@@ -48,25 +48,13 @@
     </style>
 </head>
 <body>
-    <div id="login-container" class="container">
-        <h1>Faça login para continuar</h1>
-        <div id="g_id_onload"
-             data-client_id="363239083508-k23ht7npudf8n8ntrev2i8au7ludcem0.apps.googleusercontent.com"
-             data-context="signin"
-             data-ux_mode="popup"
-             data-callback="handleCredentialResponse"
-             data-auto_prompt="false">
-        </div>
-        <div class="g_id_signin" data-type="standard"></div>
-    </div>
-
-    <div id="desktop-1" class="container" style="display: none;">
-        <img src="profile.png" alt="Perfil" class="profile-icon">
+    <div id="desktop-1" class="container">
+        <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <a class="link" onclick="goToVideos()">Vídeos</a>
     </div>
 
     <div id="desktop-2" class="container" style="display: none;">
-        <img src="profile.png" alt="Perfil" class="profile-icon">
+        <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <h1>Vídeos</h1>
         <div class="image-container">
             <img src="image.png" alt="Vídeo" onclick="redirectToYouTube()">
@@ -75,12 +63,6 @@
     </div>
 
     <script>
-        function handleCredentialResponse(response) {
-            console.log("ID Token: " + response.credential);
-            document.getElementById('login-container').style.display = 'none';
-            document.getElementById('desktop-1').style.display = 'flex';
-        }
-
         function goToVideos() {
             document.getElementById('desktop-1').style.display = 'none';
             document.getElementById('desktop-2').style.display = 'flex';
@@ -93,6 +75,10 @@
 
         function redirectToYouTube() {
             window.location.href = "https://www.youtube.com/watch?v=kFTS9B1Kx14";
+        }
+
+        function signInWithGoogle() {
+            google.accounts.id.prompt();
         }
     </script>
 </body>
