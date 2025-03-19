@@ -45,16 +45,22 @@
             width: 50px;
             cursor: pointer;
         }
+        .welcome-message {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div id="desktop-1" class="container">
         <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <p id="welcome-message-1" class="welcome-message">Olá, visitante!</p>
         <a class="link" onclick="goToVideos()">Vídeos</a>
     </div>
 
     <div id="desktop-2" class="container" style="display: none;">
         <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <p id="welcome-message-2" class="welcome-message">Olá, visitante!</p>
         <h1>Vídeos</h1>
         <div class="image-container">
             <img src="image.png" alt="Vídeo" onclick="redirectToYouTube()">
@@ -63,8 +69,7 @@
     </div>
 
     <script>
-        // Definição direta do Client ID para GitHub Pages
-        const CLIENT_ID = "363239083508-aen1hi4qdmekokqpthrdfcm9iktfrk17.apps.googleusercontent.com"; // Seu Client ID fixo
+        const CLIENT_ID = "363239083508-aen1hi4qdmekokqpthrdfcm9iktfrk17.apps.googleusercontent.com";
 
         function initializeGoogleLogin() {
             google.accounts.id.initialize({
@@ -80,7 +85,30 @@
 
         function handleCredentialResponse(response) {
             console.log("Token de ID recebido:", response.credential);
-            alert("Login bem-sucedido!");
+            const userData = parseJwt(response.credential);
+            if (userData && userData.name) {
+                updateUserName(userData.name);
+                alert(`Login bem-sucedido! Olá, ${userData.name}`);
+            }
+        }
+
+        function updateUserName(name) {
+            document.getElementById('welcome-message-1').innerText = `Olá, ${name}!`;
+            document.getElementById('welcome-message-2').innerText = `Olá, ${name}!`;
+        }
+
+        function parseJwt(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error("Erro ao decodificar token:", e);
+                return null;
+            }
         }
 
         function goToVideos() {
