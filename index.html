@@ -69,6 +69,29 @@
     </div>
 
     <script>
+        function initializeGoogleLogin() {
+    const clientId = localStorage.getItem("G_CLIENT_ID");
+
+    if (clientId) {
+        google.accounts.id.initialize({
+            client_id: clientId,
+            callback: handleCredentialResponse
+        });
+    } else {
+        console.error("⚠️ Client ID não encontrado! Defina-o manualmente no console:");
+        console.log(`setClientIdManually("SEU_CLIENT_ID_AQUI")`);
+    }
+}
+
+// Função para definir o Client ID manualmente e armazená-lo no localStorage
+function setClientIdManually(clientId) {
+    localStorage.setItem("G_CLIENT_ID", clientId);
+    console.log("✅ Client ID definido manualmente.");
+}
+
+// Executa a inicialização ao carregar a página
+window.onload = initializeGoogleLogin;
+
         // Função para inicializar login com Google
         function signInWithGoogle() {
             console.log("Tentando fazer login...");
