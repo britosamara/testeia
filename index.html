@@ -69,62 +69,13 @@
     </div>
 
     <script>
-        function initializeGoogleLogin() {
-            google.accounts.id.initialize({
-                auto_select: true,
-                callback: handleCredentialResponse
-            });
-
-            console.log("✅ Google Sign-In inicializado sem Client ID visível!");
-        }
-
+        // Função para inicializar login com Google
         function signInWithGoogle() {
             console.log("Tentando fazer login...");
             google.accounts.id.prompt();
         }
 
-        function handleCredentialResponse(response) {
-            console.log("Token de ID recebido:", response.credential);
-            const userData = parseJwt(response.credential);
-            if (userData && userData.name) {
-                updateUserName(userData.name);
-                updateProfileIcon(true);
-                alert(`Login bem-sucedido! Olá, ${userData.name}`);
-            }
-        }
-
-        function updateUserName(name) {
-            document.getElementById('welcome-message-1').innerText = `Olá, ${name}!`;
-            document.getElementById('welcome-message-2').innerText = `Olá, ${name}!`;
-        }
-
-        function updateProfileIcon(isLoggedIn) {
-            const icon1 = document.getElementById('profile-icon-1');
-            const icon2 = document.getElementById('profile-icon-2');
-
-            if (isLoggedIn) {
-                icon1.src = "profile2.png";
-                icon2.src = "profile2.png";
-            } else {
-                icon1.src = "profile1.png";
-                icon2.src = "profile1.png";
-            }
-        }
-
-        function parseJwt(token) {
-            try {
-                const base64Url = token.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
-                return JSON.parse(jsonPayload);
-            } catch (e) {
-                console.error("Erro ao decodificar token:", e);
-                return null;
-            }
-        }
-
+        // Função para alternar entre as telas
         function goToVideos() {
             document.getElementById('desktop-1').style.display = 'none';
             document.getElementById('desktop-2').style.display = 'flex';
@@ -138,8 +89,6 @@
         function redirectToYouTube() {
             window.location.href = "https://www.youtube.com/watch?v=kFTS9B1Kx14";
         }
-
-        window.onload = initializeGoogleLogin;
     </script>
 </body>
 </html>
