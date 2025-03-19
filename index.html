@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-client-id="SEU_CLIENT_ID_AQUI">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,16 +69,12 @@
     </div>
 
     <script>
-        function setClientIdManually(clientId) {
-            localStorage.setItem("G_CLIENT_ID", clientId);
-            console.log("✅ Client ID salvo no localStorage!");
-        }
-
         function initializeGoogleLogin() {
-            const clientId = localStorage.getItem("G_CLIENT_ID");
+            const bodyElement = document.querySelector("body");
+            const clientId = bodyElement.getAttribute("data-client-id");
 
-            if (!clientId) {
-                console.error("⚠️ Client ID não encontrado! Defina-o no localStorage usando `setClientIdManually('SEU_CLIENT_ID_AQUI')`.");
+            if (!clientId || clientId === "SEU_CLIENT_ID_AQUI") {
+                console.error("⚠️ Client ID não foi configurado! Substitua 'SEU_CLIENT_ID_AQUI' na tag <body>.");
                 return;
             }
 
@@ -144,14 +140,4 @@
 
         function goToHome() {
             document.getElementById('desktop-2').style.display = 'none';
-            document.getElementById('desktop-1').style.display = 'flex';
-        }
-
-        function redirectToYouTube() {
-            window.location.href = "https://www.youtube.com/watch?v=kFTS9B1Kx14";
-        }
-
-        window.onload = initializeGoogleLogin;
-    </script>
-</body>
-</html>
+            document.getElementById('desktop-1').style.display = '
