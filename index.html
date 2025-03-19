@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -53,13 +53,13 @@
 </head>
 <body>
     <div id="desktop-1" class="container">
-        <img id="profile-icon-1" src="./profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <img id="profile-icon-1" src="profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <p id="welcome-message-1" class="welcome-message">Olá, visitante!</p>
         <a class="link" onclick="goToVideos()">Vídeos</a>
     </div>
 
     <div id="desktop-2" class="container" style="display: none;">
-        <img id="profile-icon-2" src="./profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <img id="profile-icon-2" src="profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <p id="welcome-message-2" class="welcome-message">Olá, visitante!</p>
         <h1>Vídeos</h1>
         <div class="image-container">
@@ -112,8 +112,8 @@
             document.getElementById('welcome-message-2').innerText = `Olá, ${name}!`;
 
             // Muda o ícone de perfil para "profile2.png" (usuário logado)
-            document.getElementById('profile-icon-1').src = "./profile2.png";
-            document.getElementById('profile-icon-2').src = "./profile2.png";
+            document.getElementById('profile-icon-1').src = "profile2.png";
+            document.getElementById('profile-icon-2').src = "profile2.png";
         }
 
         function parseJwt(token) {
@@ -148,4 +148,3 @@
     </script>
 </body>
 </html>
-
