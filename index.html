@@ -63,23 +63,13 @@
     </div>
 
     <script>
+        // Definição direta do Client ID para GitHub Pages
         async function fetchClientId() {
-            try {
-                const response = await fetch('/config.json'); // Arquivo JSON seguro
-                const config = await response.json();
-                return config.G_CLIENT_ID;
-            } catch (error) {
-                console.error("Erro ao carregar o Client ID:", error);
-                return null;
-            }
+            return "363239083508-aen1hi4qdmekokqpthrdfcm9iktfrk17.apps.googleusercontent.com"; // Seu Client ID fixo
         }
 
         async function initializeGoogleLogin() {
             const clientId = await fetchClientId();
-            if (!clientId) {
-                console.error("Erro: Client ID não encontrado.");
-                return;
-            }
             google.accounts.id.initialize({
                 client_id: clientId,
                 callback: handleCredentialResponse
@@ -87,19 +77,11 @@
         }
 
         function signInWithGoogle() {
-            if (typeof google === 'undefined' || !google.accounts || !google.accounts.id) {
-                console.error("Erro: API do Google Sign-In não carregada corretamente.");
-                return;
-            }
             console.log("Tentando fazer login...");
             google.accounts.id.prompt();
         }
 
         function handleCredentialResponse(response) {
-            if (!response.credential) {
-                console.error("Erro: Nenhum token de ID recebido.");
-                return;
-            }
             console.log("Token de ID recebido:", response.credential);
             alert("Login bem-sucedido!");
         }
@@ -118,9 +100,7 @@
             window.location.href = "https://www.youtube.com/watch?v=kFTS9B1Kx14";
         }
 
-        window.onload = function() {
-            setTimeout(initializeGoogleLogin, 1000); // Aguarda 1 segundo para garantir o carregamento correto
-        };
+        window.onload = initializeGoogleLogin;
     </script>
 </body>
 </html>
