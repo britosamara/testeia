@@ -78,7 +78,7 @@
             console.log("✅ Client ID salvo com sucesso!");
         }
 
-        function initializeGoogleLogin() {
+        async function initializeGoogleLogin() {
             const clientId = getClientId();
             if (!clientId) {
                 console.warn("⚠️ Client ID não encontrado! Defina-o manualmente no console:");
