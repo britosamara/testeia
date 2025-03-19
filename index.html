@@ -64,14 +64,11 @@
 
     <script>
         // Definição direta do Client ID para GitHub Pages
-        async function fetchClientId() {
-            return "363239083508-aen1hi4qdmekokqpthrdfcm9iktfrk17.apps.googleusercontent.com"; // Seu Client ID fixo
-        }
+        const CLIENT_ID = "363239083508-aen1hi4qdmekokqpthrdfcm9iktfrk17.apps.googleusercontent.com"; // Seu Client ID fixo
 
-        async function initializeGoogleLogin() {
-            const clientId = await fetchClientId();
+        function initializeGoogleLogin() {
             google.accounts.id.initialize({
-                client_id: clientId,
+                client_id: CLIENT_ID,
                 callback: handleCredentialResponse
             });
         }
