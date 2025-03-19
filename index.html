@@ -53,13 +53,13 @@
 </head>
 <body>
     <div id="desktop-1" class="container">
-        <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <img id="profile-icon-1" src="profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <p id="welcome-message-1" class="welcome-message">Olá, visitante!</p>
         <a class="link" onclick="goToVideos()">Vídeos</a>
     </div>
 
     <div id="desktop-2" class="container" style="display: none;">
-        <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <img id="profile-icon-2" src="profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <p id="welcome-message-2" class="welcome-message">Olá, visitante!</p>
         <h1>Vídeos</h1>
         <div class="image-container">
@@ -70,34 +70,26 @@
 
     <script>
         async function fetchClientId() {
-    try {
-        const response = await fetch('config.json');
-        const config = await response.json();
-        return config.G_CLIENT_ID;
-    } catch (error) {
-        console.error("Erro ao carregar o Client ID:", error);
-        return null;
-    }
-}
+            try {
+                const response = await fetch('config.json');
+                const config = await response.json();
+                return config.G_CLIENT_ID;
+            } catch (error) {
+                console.error("Erro ao carregar o Client ID:", error);
+                return null;
+            }
+        }
 
-async function initializeGoogleLogin() {
-    const clientId = await fetchClientId();
-    if (clientId) {
-        google.accounts.id.initialize({
-            client_id: clientId,
-            callback: handleCredentialResponse
-        });
-    } else {
-        console.error("Client ID não encontrado. Verifique o config.json.");
-    }
-}
-
-
-        function initializeGoogleLogin() {
-            google.accounts.id.initialize({
-                client_id: CLIENT_ID,
-                callback: handleCredentialResponse
-            });
+        async function initializeGoogleLogin() {
+            const clientId = await fetchClientId();
+            if (clientId) {
+                google.accounts.id.initialize({
+                    client_id: clientId,
+                    callback: handleCredentialResponse
+                });
+            } else {
+                console.error("Client ID não encontrado. Verifique o config.json.");
+            }
         }
 
         function signInWithGoogle() {
@@ -109,14 +101,19 @@ async function initializeGoogleLogin() {
             console.log("Token de ID recebido:", response.credential);
             const userData = parseJwt(response.credential);
             if (userData && userData.name) {
-                updateUserName(userData.name);
+                updateUserInterface(userData.name);
                 alert(`Login bem-sucedido! Olá, ${userData.name}`);
             }
         }
 
-        function updateUserName(name) {
+        function updateUserInterface(name) {
+            // Atualiza o nome do usuário nos dois desktops
             document.getElementById('welcome-message-1').innerText = `Olá, ${name}!`;
             document.getElementById('welcome-message-2').innerText = `Olá, ${name}!`;
+
+            // Muda o ícone de perfil para "profile2.png" (usuário logado)
+            document.getElementById('profile-icon-1').src = "profile2.png";
+            document.getElementById('profile-icon-2').src = "profile2.png";
         }
 
         function parseJwt(token) {
