@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -53,13 +53,13 @@
 </head>
 <body>
     <div id="desktop-1" class="container">
-        <img id="profile-icon-1" src="profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <p id="welcome-message-1" class="welcome-message">Olá, visitante!</p>
         <a class="link" onclick="goToVideos()">Vídeos</a>
     </div>
 
     <div id="desktop-2" class="container" style="display: none;">
-        <img id="profile-icon-2" src="profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <p id="welcome-message-2" class="welcome-message">Olá, visitante!</p>
         <h1>Vídeos</h1>
         <div class="image-container">
@@ -68,64 +68,86 @@
         <a class="link" onclick="goToHome()">Voltar</a>
     </div>
 
-   <script>
-    async function fetchClientId() {
-        try {
-            const response = await fetch('config.json', { cache: "no-store" }); // 🔹 Evita cache e força o carregamento
-            if (!response.ok) {
-                throw new Error(`Erro ao carregar config.json: ${response.statusText}`);
-            }
-            const config = await response.json();
-            return config.G_CLIENT_ID;
-        } catch (error) {
-            console.error("Erro ao carregar o Client ID:", error);
-            return null;
-        }
+    <script>
+        async function fetchClientId() {
+    try {
+        const response = await fetch('config.json');
+        const config = await response.json();
+        return config.G_CLIENT_ID;
+    } catch (error) {
+        console.error("Erro ao carregar o Client ID:", error);
+        return null;
     }
+}
 
-    async function initializeGoogleLogin() {
-        const clientId = await fetchClientId();
-        if (clientId) {
+async function initializeGoogleLogin() {
+    const clientId = await fetchClientId();
+    if (clientId) {
+        google.accounts.id.initialize({
+            client_id: clientId,
+            callback: handleCredentialResponse
+        });
+    } else {
+        console.error("Client ID não encontrado. Verifique o config.json.");
+    }
+}
+
+
+        function initializeGoogleLogin() {
             google.accounts.id.initialize({
-                client_id: clientId,
+                client_id: CLIENT_ID,
                 callback: handleCredentialResponse
             });
-        } else {
-            console.error("⚠️ Client ID não encontrado! Verifique se o config.json está disponível.");
         }
-    }
 
-    function signInWithGoogle() {
-        console.log("Tentando fazer login...");
-        google.accounts.id.prompt();
-    }
-
-    function handleCredentialResponse(response) {
-        console.log("Token de ID recebido:", response.credential);
-        const userData = parseJwt(response.credential);
-        if (userData && userData.name) {
-            updateUserInterface(userData.name);
-            alert(`Login bem-sucedido! Olá, ${userData.name}`);
+        function signInWithGoogle() {
+            console.log("Tentando fazer login...");
+            google.accounts.id.prompt();
         }
-    }
 
-    function parseJwt(token) {
-        try {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
-                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-            ).join(''));
-            return JSON.parse(jsonPayload);
-        } catch (e) {
-            console.error("Erro ao decodificar token:", e);
-            return null;
+        function handleCredentialResponse(response) {
+            console.log("Token de ID recebido:", response.credential);
+            const userData = parseJwt(response.credential);
+            if (userData && userData.name) {
+                updateUserName(userData.name);
+                alert(`Login bem-sucedido! Olá, ${userData.name}`);
+            }
         }
-    }
 
-    window.onload = initializeGoogleLogin;
-</script>
+        function updateUserName(name) {
+            document.getElementById('welcome-message-1').innerText = `Olá, ${name}!`;
+            document.getElementById('welcome-message-2').innerText = `Olá, ${name}!`;
+        }
 
+        function parseJwt(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error("Erro ao decodificar token:", e);
+                return null;
+            }
+        }
+
+        function goToVideos() {
+            document.getElementById('desktop-1').style.display = 'none';
+            document.getElementById('desktop-2').style.display = 'flex';
+        }
+
+        function goToHome() {
+            document.getElementById('desktop-2').style.display = 'none';
+            document.getElementById('desktop-1').style.display = 'flex';
+        }
+
+        function redirectToYouTube() {
+            window.location.href = "https://www.youtube.com/watch?v=kFTS9B1Kx14";
+        }
+
+        window.onload = initializeGoogleLogin;
+    </script>
 </body>
 </html>
-
