@@ -53,13 +53,13 @@
 </head>
 <body>
     <div id="desktop-1" class="container">
-        <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <img id="profile-icon-1" src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <p id="welcome-message-1" class="welcome-message">Olá, visitante!</p>
         <a class="link" onclick="goToVideos()">Vídeos</a>
     </div>
 
     <div id="desktop-2" class="container" style="display: none;">
-        <img src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <img id="profile-icon-2" src="profile.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <p id="welcome-message-2" class="welcome-message">Olá, visitante!</p>
         <h1>Vídeos</h1>
         <div class="image-container">
@@ -69,33 +69,24 @@
     </div>
 
     <script>
-        async function fetchClientId() {
-    try {
-        const response = await fetch('config.json');
-        const config = await response.json();
-        return config.G_CLIENT_ID;
-    } catch (error) {
-        console.error("Erro ao carregar o Client ID:", error);
-        return null;
-    }
-}
+        function getClientId() {
+            return localStorage.getItem("G_CLIENT_ID");
+        }
 
-async function initializeGoogleLogin() {
-    const clientId = await fetchClientId();
-    if (clientId) {
-        google.accounts.id.initialize({
-            client_id: clientId,
-            callback: handleCredentialResponse
-        });
-    } else {
-        console.error("Client ID não encontrado. Verifique o config.json.");
-    }
-}
-
+        function setClientIdManually(clientId) {
+            localStorage.setItem("G_CLIENT_ID", clientId);
+            console.log("✅ Client ID salvo com sucesso!");
+        }
 
         function initializeGoogleLogin() {
+            const clientId = getClientId();
+            if (!clientId) {
+                console.warn("⚠️ Client ID não encontrado! Defina-o manualmente no console:");
+                console.warn(`setClientIdManually("SEU_CLIENT_ID_AQUI")`);
+                return;
+            }
             google.accounts.id.initialize({
-                client_id: CLIENT_ID,
+                client_id: clientId,
                 callback: handleCredentialResponse
             });
         }
