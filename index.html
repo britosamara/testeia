@@ -68,31 +68,80 @@
         <a class="link" onclick="goToHome()">Voltar</a>
     </div>
 
- <script>
-    function getClientId() {
-        return localStorage.getItem("G_CLIENT_ID");
-    }
-
-    function initializeGoogleLogin() {
-        const clientId = getClientId();
-        if (!clientId) {
-            console.error("⚠️ Client ID não encontrado! Defina-o no localStorage.");
-            return;
+    <script>
+        function getClientId() {
+            return localStorage.getItem("G_CLIENT_ID");
         }
 
-        google.accounts.id.initialize({
-            client_id: clientId,
-            callback: handleCredentialResponse
-        });
-    }
+        function initializeGoogleLogin() {
+            const clientId = getClientId();
+            if (!clientId) {
+                console.error("⚠️ Client ID não encontrado! Defina-o no localStorage.");
+                return;
+            }
 
-    function setClientIdManually(clientId) {
-        localStorage.setItem("G_CLIENT_ID", clientId);
-        console.log("✅ Client ID salvo no localStorage!");
-    }
+            google.accounts.id.initialize({
+                client_id: clientId,
+                callback: handleCredentialResponse
+            });
+        }
 
-    window.onload = initializeGoogleLogin;
-</script>
+        function signInWithGoogle() {
+            console.log("Tentando fazer login...");
+            google.accounts.id.prompt();
+        }
 
+        function handleCredentialResponse(response) {
+            console.log("Token de ID recebido:", response.credential);
+            const userData = parseJwt(response.credential);
+            if (userData && userData.name) {
+                updateUserInterface(userData.name);
+                alert(`Login bem-sucedido! Olá, ${userData.name}`);
+            }
+        }
+
+        function updateUserInterface(name) {
+            document.getElementById('welcome-message-1').innerText = `Olá, ${name}!`;
+            document.getElementById('welcome-message-2').innerText = `Olá, ${name}!`;
+
+            document.getElementById('profile-icon-1').src = "profile2.png";
+            document.getElementById('profile-icon-2').src = "profile2.png";
+        }
+
+        function parseJwt(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error("Erro ao decodificar token:", e);
+                return null;
+            }
+        }
+
+        function goToVideos() {
+            document.getElementById('desktop-1').style.display = 'none';
+            document.getElementById('desktop-2').style.display = 'flex';
+        }
+
+        function goToHome() {
+            document.getElementById('desktop-2').style.display = 'none';
+            document.getElementById('desktop-1').style.display = 'flex';
+        }
+
+        function redirectToYouTube() {
+            window.location.href = "https://www.youtube.com/watch?v=kFTS9B1Kx14";
+        }
+
+        function setClientIdManually(clientId) {
+            localStorage.setItem("G_CLIENT_ID", clientId);
+            console.log("✅ Client ID salvo no localStorage!");
+        }
+
+        window.onload = initializeGoogleLogin;
+    </script>
 </body>
 </html>
