@@ -13,7 +13,7 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Criar diretório público e copiar arquivos
+      - name: Criar diretório público e gerar `config.js`
         run: |
           mkdir -p public
           echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > public/config.js
