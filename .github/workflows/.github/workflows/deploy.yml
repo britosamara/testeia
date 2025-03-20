@@ -13,11 +13,16 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Criar arquivo de configuração
-        run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
+      - name: Criar diretório público e copiar arquivos
+        run: |
+          mkdir -p public
+          echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > public/config.js
+          cp index.html scripts.js imagem.png perfil.png perfil1.png perfil2.png public/
 
       - name: Configurar e publicar no GitHub Pages
         uses: actions/upload-pages-artifact@v1
+        with:
+          path: public
 
       - name: Implantar no GitHub Pages
         uses: actions/deploy-pages@v1
