@@ -17,7 +17,7 @@ jobs:
         run: |
           mkdir -p public
           echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > public/config.js
-          cp index.html script.js imagem.png perfil.png perfil1.png perfil2.png public/
+          cp index.html script.js imagem.png perfil1.png perfil2.png public/
 
       - name: Configurar e publicar no GitHub Pages
         uses: actions/upload-pages-artifact@v1
