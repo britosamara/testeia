@@ -13,13 +13,19 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Criar arquivo de configuração
-        run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
+      - name: Criar diretório público e gerar config.js
+        run: |
+          mkdir -p public
+          echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > public/config.js
+
+      - name: Copiar arquivos necessários para publicação
+        run: |
+          cp index.html script.js image.png profile1.png profile2.png public/
 
       - name: Configurar e publicar no GitHub Pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: .  # Publica todos os arquivos da raiz do repositório
+          path: public  # Publica apenas a pasta 'public', garantindo que o config.js seja incluído
 
       - name: Implantar no GitHub Pages
         uses: actions/deploy-pages@v1
