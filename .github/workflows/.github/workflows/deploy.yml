@@ -3,7 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches:
-      - main  # Ou 'master' se estiver usando essa branch
+      - main
 
 jobs:
   deploy:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Criar diretório público e gerar config.js
+      - name: Criar diretório público e copiar arquivos
         run: |
           mkdir -p public
           echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > public/config.js
@@ -22,7 +22,7 @@ jobs:
       - name: Configurar e publicar no GitHub Pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: public  # Envia apenas a pasta public para o GitHub Pages
+          path: public  # Enviar apenas a pasta correta
 
       - name: Implantar no GitHub Pages
         uses: actions/deploy-pages@v1
