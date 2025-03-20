@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> d0a38cf (Adicionar deploy.yml corrigido)
 name: Deploy GitHub Pages
 
 on:
@@ -13,6 +17,7 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
+<<<<<<< HEAD
       - name: Criar `config.js` e preparar arquivos para o GitHub Pages
         run: |
           mkdir -p public
@@ -23,6 +28,15 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: public
+=======
+      - name: Criar arquivo de configuração
+        run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
+
+      - name: Configurar e publicar no GitHub Pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: .  # Publica todos os arquivos da raiz do repositório
+>>>>>>> d0a38cf (Adicionar deploy.yml corrigido)
 
       - name: Implantar no GitHub Pages
         uses: actions/deploy-pages@v1
