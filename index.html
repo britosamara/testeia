@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site de Vídeos</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="config.js"></script>
+    <script defer src="scripts.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,9 +57,6 @@
     </style>
 </head>
 <body>
-    <!-- Input escondido para definir o Client ID -->
-    <input type="hidden" id="clientId" value="SEU_CLIENT_ID_AQUI">
-
     <div id="desktop-1" class="container">
         <img id="profile-icon-1" src="profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
         <p id="welcome-message-1" class="welcome-message">Olá, visitante!</p>
@@ -73,83 +72,5 @@
         </div>
         <a class="link" onclick="goToHome()">Voltar</a>
     </div>
-
-    <script>
-        function initializeGoogleLogin() {
-            const clientId = document.getElementById("clientId").value.trim();
-
-            if (!clientId || clientId === "SEU_CLIENT_ID_AQUI") {
-                console.warn("⚠️ Defina o Client ID no input hidden antes de continuar.");
-                return;
-            }
-
-            google.accounts.id.initialize({
-                client_id: clientId,
-                callback: handleCredentialResponse
-            });
-
-            google.accounts.id.renderButton(document.getElementById("profile-icon-1"), {
-                theme: "outline",
-                size: "small"
-            });
-        }
-
-        function signInWithGoogle() {
-            if (typeof google === "undefined" || !google.accounts || !google.accounts.id) {
-                console.error("⚠️ API do Google não carregada corretamente. Verifique sua conexão ou o script do Google Sign-In.");
-                return;
-            }
-            google.accounts.id.prompt();
-        }
-
-        function handleCredentialResponse(response) {
-            const userData = parseJwt(response.credential);
-            if (userData && userData.name) {
-                updateUserName(userData.name);
-                updateProfileIcon();
-                alert(`Login bem-sucedido! Olá, ${userData.name}`);
-            }
-        }
-
-        function updateUserName(name) {
-            document.getElementById('welcome-message-1').innerText = `Olá, ${name}!`;
-            document.getElementById('welcome-message-2').innerText = `Olá, ${name}!`;
-        }
-
-        function updateProfileIcon() {
-            document.getElementById('profile-icon-1').src = "profile2.png";
-            document.getElementById('profile-icon-2').src = "profile2.png";
-        }
-
-        function parseJwt(token) {
-            try {
-                const base64Url = token.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
-                return JSON.parse(jsonPayload);
-            } catch (e) {
-                console.error("Erro ao decodificar token:", e);
-                return null;
-            }
-        }
-
-        function goToVideos() {
-            document.getElementById('desktop-1').classList.add('hidden');
-            document.getElementById('desktop-2').classList.remove('hidden');
-        }
-
-        function goToHome() {
-            document.getElementById('desktop-2').classList.add('hidden');
-            document.getElementById('desktop-1').classList.remove('hidden');
-        }
-
-        function redirectToYouTube() {
-            window.location.href = "https://www.youtube.com/watch?v=kFTS9B1Kx14";
-        }
-
-        window.onload = initializeGoogleLogin;
-    </script>
 </body>
 </html>
