@@ -3,7 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches:
-      - main  # Altere para 'master' se seu repositório usar essa branch
+      - main  # Ou 'master' se estiver usando essa branch
 
 jobs:
   deploy:
@@ -14,8 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Criar arquivo de configuração
-        run: |
-          echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
+        run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
 
       - name: Configurar e publicar no GitHub Pages
         uses: actions/upload-pages-artifact@v1
