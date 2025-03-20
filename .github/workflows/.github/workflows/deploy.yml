@@ -1,0 +1,24 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Altere para 'master' se seu repositório usar essa branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Criar arquivo de configuração
+        run: |
+          echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
+
+      - name: Configurar e publicar no GitHub Pages
+        uses: actions/upload-pages-artifact@v1
+
+      - name: Implantar no GitHub Pages
+        uses: actions/deploy-pages@v1
