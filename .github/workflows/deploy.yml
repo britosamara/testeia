@@ -12,13 +12,10 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Criar arquivo de configuração
+      - name: Criar config.js
         run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
 
-      - name: Configurar e publicar no GitHub Pages
+      - name: Publicar no GitHub Pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: . # raiz do repositório
-
-      - name: Implantar no GitHub Pages
-        uses: actions/deploy-pages@v1
+          path: .
