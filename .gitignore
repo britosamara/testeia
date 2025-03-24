@@ -1,0 +1,3 @@
+git add config.js
+git commit -m "Adicionando config.js ao repositório"
+git push origin main

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site de Vídeos</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="config.js"></script>
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .link {
+            font-size: 24px;
+            text-decoration: none;
+            color: black;
+            border: 2px solid black;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 10px;
+        }
+        .link:hover {
+            background-color: red;
+            color: white;
+        }
+        .image-container img {
+            width: 300px;
+            height: auto;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .profile-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            cursor: pointer;
+        }
+        .welcome-message {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="desktop-1" class="container">
+        <img id="profile-icon-1" src="profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <p id="welcome-message-1" class="welcome-message">Olá, visitante!</p>
+        <a class="link" onclick="goToVideos()">Vídeos</a>
+    </div>
+
+    <div id="desktop-2" class="container hidden">
+        <img id="profile-icon-2" src="profile1.png" alt="Perfil" class="profile-icon" onclick="signInWithGoogle()">
+        <p id="welcome-message-2" class="welcome-message">Olá, visitante!</p>
+        <h1>Vídeos</h1>
+        <div class="image-container">
+            <img src="image.png" alt="Vídeo" onclick="redirectToYouTube()">
+        </div>
+        <a class="link" onclick="goToHome()">Voltar</a>
+    </div>
+</body>
+</html>
