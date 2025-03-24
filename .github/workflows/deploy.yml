@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v3
+        uses: peaceiris/actions-gh-pages@v3
 
       - name: Criar config.js com segredo
         run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
