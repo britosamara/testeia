@@ -16,8 +16,8 @@ jobs:
       - name: Criar config.js com segredo
         run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
 
-      - name: Publicar usando peaceiris/actions-gh-pages
+      - name: Publicar usando token pessoal
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: .
