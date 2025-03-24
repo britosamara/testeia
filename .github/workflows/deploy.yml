@@ -13,11 +13,14 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Criar config.js com segredo
-        run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
+      - name: Criar pasta temporária e gerar config.js
+        run: |
+          mkdir public
+          echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > public/config.js
+          cp index.html script.js image.png profile1.png profile2.png public/
 
       - name: Publicar usando token pessoal
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: .
+          publish_dir: ./public
