@@ -1,4 +1,4 @@
-name: Implantar páginas do GitHub
+name: Deploy com config.js
 
 on:
   push:
@@ -11,15 +11,13 @@ jobs:
 
     steps:
       - name: Checkout do código
-        uses: peaceiris/actions-gh-pages@v3
+        uses: actions/checkout@v3
 
       - name: Criar config.js com segredo
         run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
 
-      - name: Upload dos arquivos para o GitHub Pages
-        uses: actions/upload-pages-artifact@v1
+      - name: Publicar usando peaceiris/actions-gh-pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: .
-
-      - name: Publicar no GitHub Pages
-        uses: actions/deploy-pages@v1
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
