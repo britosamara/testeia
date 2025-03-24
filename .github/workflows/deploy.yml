@@ -8,14 +8,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Criar config.js
+      - name: Criar config.js com segredo
         run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
 
-      - name: Publicar no GitHub Pages
+      - name: Upload de arquivos para artefato
         uses: actions/upload-pages-artifact@v1
         with:
           path: .
+
+      - name: Implantar no GitHub Pages
+        uses: actions/deploy-pages@v1
