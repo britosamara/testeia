@@ -16,10 +16,10 @@ jobs:
       - name: Criar config.js com segredo
         run: echo "const GOOGLE_CLIENT_ID = '${{ secrets.GOOGLE_CLIENT_ID }}';" > config.js
 
-      - name: Upload de arquivos para artefato
+      - name: Upload dos arquivos para o GitHub Pages
         uses: actions/upload-pages-artifact@v1
         with:
           path: .
 
-      - name: Implantar no GitHub Pages
+      - name: Publicar no GitHub Pages
         uses: actions/deploy-pages@v1
